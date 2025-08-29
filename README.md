@@ -54,23 +54,39 @@ npm run lint - Run ESLint
 npm run type-check - Run TypeScript type checking
 
 🏗️ Project Structure
-text
-src/
-├── components/          # Reusable UI components
-│   ├── ui/             # Shadcn/ui components
-│   ├── BookCard.tsx    # Book display component
-│   ├── SearchBar.tsx   # Search functionality
-│   └── Navigation.tsx  # Main navigation
-├── pages/              # Page components
-│   ├── Books.tsx       # Books listing page
-│   ├── BookDetail.tsx  # Book details page
-│   └── Favorites.tsx   # Favorites page
-├── hooks/              # Custom React hooks
-├── lib/                # Utility libraries
-│   ├── apollo.ts       # Apollo Client configuration
-│   ├── graphql.ts      # GraphQL queries
-│   └── utils.ts        # Helper functions
-└── styles/             # Global styles
+frontend/
+├── public/
+│   ├── favicon.ico
+│   └── robots.txt
+├── src/
+│   ├── components/
+│   │   ├── BookCard.tsx
+│   │   ├── SearchBar.tsx
+│   │   ├── Navigation.tsx
+│   │   ├── LoadingSpinner.tsx
+│   │   └── ErrorMessage.tsx
+│   ├── pages/
+│   │   ├── Home.tsx
+│   │   ├── Books.tsx
+│   │   ├── BookDetail.tsx
+│   │   └── Favorites.tsx
+│   ├── hooks/
+│   │   ├── useBooks.ts
+│   │   └── useFavorites.ts
+│   ├── lib/
+│   │   ├── apollo.ts
+│   │   ├── graphql.ts
+│   │   └── utils.ts
+│   ├── App.tsx
+│   ├── App.css
+│   └── main.tsx
+├── package.json
+├── tailwind.config.ts
+├── tsconfig.json
+├── vite.config.ts
+├── index.html
+└── README.md
+
 🌐 API Integration
 This frontend connects to a Django GraphQL backend with:
 
