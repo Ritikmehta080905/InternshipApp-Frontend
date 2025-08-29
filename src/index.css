@@ -1,0 +1,155 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Definition of the design system. All colors, gradients, fonts, etc should be defined here. 
+All colors MUST be HSL.
+*/
+
+@layer base {
+  :root {
+    --background: 45 15% 97%;
+    --foreground: 30 10% 12%;
+
+    --card: 0 0% 100%;
+    --card-foreground: 30 10% 12%;
+
+    --popover: 0 0% 100%;
+    --popover-foreground: 30 10% 12%;
+
+    --primary: 25 85% 45%;
+    --primary-foreground: 45 100% 97%;
+
+    --secondary: 45 25% 90%;
+    --secondary-foreground: 30 10% 12%;
+
+    --muted: 45 15% 95%;
+    --muted-foreground: 30 5% 55%;
+
+    --accent: 195 85% 45%;
+    --accent-foreground: 45 100% 97%;
+
+    --destructive: 0 75% 55%;
+    --destructive-foreground: 45 100% 97%;
+
+    --border: 45 20% 87%;
+    --input: 45 20% 87%;
+    --ring: 25 85% 45%;
+
+    /* Custom book library tokens */
+    --library-warm: 25 85% 45%;
+    --library-cream: 45 25% 90%;
+    --library-sage: 120 20% 75%;
+    --library-navy: 220 30% 25%;
+    --library-gold: 45 95% 55%;
+    
+    /* Gradients */
+    --gradient-warm: linear-gradient(135deg, hsl(25 85% 45%), hsl(15 75% 50%));
+    --gradient-subtle: linear-gradient(180deg, hsl(45 15% 97%), hsl(45 25% 94%));
+    --gradient-card: linear-gradient(145deg, hsl(0 0% 100%), hsl(45 15% 98%));
+    
+    /* Shadows */
+    --shadow-book: 0 4px 20px -4px hsl(25 85% 45% / 0.15);
+    --shadow-card: 0 2px 12px -2px hsl(30 10% 12% / 0.08);
+    --shadow-elegant: 0 8px 30px -8px hsl(25 85% 45% / 0.2);
+
+    --radius: 0.5rem;
+
+    --sidebar-background: 0 0% 98%;
+
+    --sidebar-foreground: 240 5.3% 26.1%;
+
+    --sidebar-primary: 240 5.9% 10%;
+
+    --sidebar-primary-foreground: 0 0% 98%;
+
+    --sidebar-accent: 240 4.8% 95.9%;
+
+    --sidebar-accent-foreground: 240 5.9% 10%;
+
+    --sidebar-border: 220 13% 91%;
+
+    --sidebar-ring: 217.2 91.2% 59.8%;
+  }
+
+  .dark {
+    --background: 30 15% 8%;
+    --foreground: 45 25% 90%;
+
+    --card: 30 20% 10%;
+    --card-foreground: 45 25% 90%;
+
+    --popover: 30 20% 10%;
+    --popover-foreground: 45 25% 90%;
+
+    --primary: 25 85% 55%;
+    --primary-foreground: 30 15% 8%;
+
+    --secondary: 30 15% 15%;
+    --secondary-foreground: 45 25% 90%;
+
+    --muted: 30 15% 15%;
+    --muted-foreground: 45 10% 65%;
+
+    --accent: 195 85% 55%;
+    --accent-foreground: 30 15% 8%;
+
+    --destructive: 0 75% 60%;
+    --destructive-foreground: 45 25% 90%;
+    
+    /* Dark mode custom tokens */
+    --library-warm: 25 85% 55%;
+    --library-cream: 30 15% 15%;
+    --library-sage: 120 15% 35%;
+    --library-navy: 220 40% 15%;
+    --library-gold: 45 90% 65%;
+    
+    /* Dark gradients */
+    --gradient-warm: linear-gradient(135deg, hsl(25 85% 55%), hsl(15 75% 60%));
+    --gradient-subtle: linear-gradient(180deg, hsl(30 15% 8%), hsl(30 20% 10%));
+    --gradient-card: linear-gradient(145deg, hsl(30 20% 10%), hsl(30 15% 12%));
+    
+    /* Dark shadows */
+    --shadow-book: 0 4px 20px -4px hsl(25 85% 55% / 0.25);
+    --shadow-card: 0 2px 12px -2px hsl(0 0% 0% / 0.15);
+    --shadow-elegant: 0 8px 30px -8px hsl(25 85% 55% / 0.3);
+
+    --border: 217.2 32.6% 17.5%;
+    --input: 217.2 32.6% 17.5%;
+    --ring: 212.7 26.8% 83.9%;
+    --sidebar-background: 240 5.9% 10%;
+    --sidebar-foreground: 240 4.8% 95.9%;
+    --sidebar-primary: 224.3 76.3% 48%;
+    --sidebar-primary-foreground: 0 0% 100%;
+    --sidebar-accent: 240 3.7% 15.9%;
+    --sidebar-accent-foreground: 240 4.8% 95.9%;
+    --sidebar-border: 240 3.7% 15.9%;
+    --sidebar-ring: 217.2 91.2% 59.8%;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  body {
+    @apply bg-background text-foreground;
+  }
+}
+
+@layer utilities {
+  .line-clamp-1 {
+    display: -webkit-box;
+    -webkit-line-clamp: 1;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+  
+  .line-clamp-2 {
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+}
