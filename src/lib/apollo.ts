@@ -1,6 +1,8 @@
 import { ApolloClient, InMemoryCache, createHttpLink } from "@apollo/client";
 
-const GRAPHQL_ENDPOINT = "http://127.0.0.1:8000/graphql/";
+// Use environment variable or fallback to production
+const GRAPHQL_ENDPOINT = import.meta.env.VITE_GRAPHQL_URL 
+  || "https://internshipapp-backend.onrender.com/graphql/";
 
 const httpLink = createHttpLink({
   uri: GRAPHQL_ENDPOINT,
