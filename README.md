@@ -1,5 +1,7 @@
 # 📚 Internship App - Frontend
 
+Hosted url:internship-app-frontend-one.vercel.app
+
 A modern, responsive frontend application built with **Vite + React + TypeScript + Tailwind CSS** for managing and browsing books. Features a clean UI with GraphQL integration and a comprehensive component library.
 
 ## 🚀 Tech Stack
