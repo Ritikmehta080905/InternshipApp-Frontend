@@ -1,33 +1,46 @@
-
-
 import { useState } from "react";
 import { Link } from "react-router-dom";
-import { useMutation } from "@apollo/client"; // ← FIX THIS LINE
+import { useMutation } from "@apollo/client";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { Book, TOGGLE_FAVORITE } from "@/lib/graphql";
+import { Book } from "@/lib/graphql";
 import { Heart } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
+import { gql } from "@apollo/client";
 
 interface BookCardProps {
   book: Book;
 }
+
+// ✅ GraphQL Mutation for toggling favorite
+const TOGGLE_FAVORITE = gql`
+  mutation ToggleFavorite($bookId: Int!, $add: Boolean!) {
+    toggleFavorite(bookId: $bookId, add: $add) {
+      success
+      book {
+        id
+        isFavorite
+      }
+    }
+  }
+`;
 
 const BookCard = ({ book }: BookCardProps) => {
   const { toast } = useToast();
   const [isFavorite, setIsFavorite] = useState(book.isFavorite || false);
   const [loading, setLoading] = useState(false);
 
-  // ✅ CORRECT: Using useMutation for toggle favorite
+  // ✅ Using backend mutation
   const [toggleFavorite] = useMutation<{ toggleFavorite: { success: boolean; book: Book } }>(
     TOGGLE_FAVORITE,
     {
       onCompleted: (data) => {
         if (data.toggleFavorite.success) {
-          setIsFavorite(!isFavorite);
+          const newFav = data.toggleFavorite.book.isFavorite;
+          setIsFavorite(newFav);
           toast({
-            title: isFavorite ? "Removed from favorites" : "Added to favorites",
-            description: `"${book.title}" has been ${isFavorite ? "removed from" : "added to"} your favorites.`,
+            title: newFav ? "Added to favorites" : "Removed from favorites",
+            description: `"${book.title}" has been ${newFav ? "added to" : "removed from"} your favorites.`,
           });
         }
       },
@@ -48,7 +61,7 @@ const BookCard = ({ book }: BookCardProps) => {
     try {
       await toggleFavorite({
         variables: { 
-          bookId: book.id, 
+          bookId: parseInt(book.id), // 👈 ensure Int type
           add: !isFavorite 
         },
       });

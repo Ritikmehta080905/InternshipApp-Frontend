@@ -1,33 +1,55 @@
-import { useState, useEffect } from 'react';
-import { getFavorites, removeFromFavorites } from '@/lib/favorites';
-import { Book } from '@/lib/graphql';
+import { useEffect, useState } from 'react';
+import { Book, TOGGLE_FAVORITE, GET_BOOKS_PAGINATED } from '@/lib/graphql';
 import { Card, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Link } from 'react-router-dom';
 import { Heart, BookOpen, Trash2 } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
+import { useMutation, useQuery } from '@apollo/client';
 
 const Favorites = () => {
-  const [favorites, setFavorites] = useState<Book[]>([]);
   const { toast } = useToast();
 
+  // ✅ Query books and filter only favorites
+  const { data, loading, refetch } = useQuery(GET_BOOKS_PAGINATED, {
+    variables: { page: 1, pageSize: 100 }, // adjust as needed
+    fetchPolicy: "network-only",
+  });
+
+  const [toggleFavorite] = useMutation(TOGGLE_FAVORITE);
+
+  const [favorites, setFavorites] = useState<Book[]>([]);
+
   useEffect(() => {
-    loadFavorites();
-  }, []);
+    if (data?.booksPaginated?.books) {
+      const favs = data.booksPaginated.books.filter((b: Book) => b.is_favorite);
+      setFavorites(favs);
+    }
+  }, [data]);
 
-  const loadFavorites = () => {
-    const favoriteBooks = getFavorites();
-    setFavorites(favoriteBooks);
+  const handleRemoveFavorite = async (book: Book) => {
+    try {
+      await toggleFavorite({
+        variables: { bookId: book.id, add: false },
+      });
+      setFavorites(prev => prev.filter(fav => fav.id !== book.id));
+      toast({
+        title: "Removed from favorites",
+        description: `"${book.title}" has been removed from your favorites.`,
+      });
+      refetch(); // refresh backend state
+    } catch (error) {
+      toast({
+        title: "Error",
+        description: "Could not remove from favorites. Please try again.",
+        variant: "destructive",
+      });
+    }
   };
 
-  const handleRemoveFavorite = (book: Book) => {
-    removeFromFavorites(book.id);
-    setFavorites(prev => prev.filter(fav => fav.id !== book.id));
-    toast({
-      title: "Removed from favorites",
-      description: `"${book.title}" has been removed from your favorites.`,
-    });
-  };
+  if (loading) {
+    return <div className="flex justify-center items-center h-[50vh]">Loading...</div>;
+  }
 
   if (favorites.length === 0) {
     return (

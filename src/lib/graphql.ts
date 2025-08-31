@@ -1,10 +1,11 @@
-import { gql } from "@apollo/client"; // ← ADD THIS IMPORT
+import { gql } from "@apollo/client";
 
 export interface Book {
   id: number;
   title: string;
   author: string;
   coverImage?: string;
+  is_favorite?: boolean; // ✅ Added
 }
 
 export interface BooksPaginatedResponse {
@@ -19,9 +20,10 @@ export interface BookDetail {
   coverImage?: string;
   description?: string;
   publish_year?: number;
+  is_favorite?: boolean; // ✅ Added
 }
 
-// Queries - MUST USE GQL TAG
+// Queries
 export const GET_BOOKS_PAGINATED = gql`
   query GetBooksPaginated($page: Int!, $pageSize: Int!, $search: String) {
     booksPaginated(page: $page, pageSize: $pageSize, search: $search) {
@@ -30,6 +32,7 @@ export const GET_BOOKS_PAGINATED = gql`
         title
         author
         coverImage
+        is_favorite   # ✅ Added
       }
       totalCount
     }
@@ -42,9 +45,10 @@ export const GET_BOOK_BY_ID = gql`
       id
       title
       author
-  coverImage
+      coverImage
       description
       publish_year
+      is_favorite   # ✅ Added
     }
   }
 `;
@@ -58,6 +62,7 @@ export const TOGGLE_FAVORITE = gql`
         title
         author
         coverImage
+        is_favorite   # ✅ Added
       }
     }
   }

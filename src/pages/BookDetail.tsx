@@ -7,14 +7,13 @@ import LoadingSpinner from '@/components/LoadingSpinner';
 import ErrorMessage from '@/components/ErrorMessage';
 import { ArrowLeft, Heart, BookOpen, Calendar, User } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
-import { useState, useEffect } from 'react'; // ← ADD MISSING IMPORTS
+import { useState, useEffect } from 'react';
 
 const BookDetail = () => {
   const { id } = useParams<{ id: string }>();
   const { toast } = useToast();
   const [isBookFavorite, setIsBookFavorite] = useState(false);
 
-  // ✅ CORRECT: Using useQuery for fetching book data
   const { data, loading, error, refetch } = useQuery<{ book: BookDetailType }>(
     GET_BOOK_BY_ID,
     {
@@ -23,16 +22,16 @@ const BookDetail = () => {
     }
   );
 
-  // ✅ CORRECT: Updated to match toggle_favorite mutation
-  const [toggleFavorite] = useMutation<{ toggle_favorite: { success: boolean; book: BookDetailType } }>(
+  // ✅ Correct key: toggleFavorite
+  const [toggleFavorite] = useMutation<{ toggleFavorite: { success: boolean; book: BookDetailType } }>(
     TOGGLE_FAVORITE,
     {
       onCompleted: (data) => {
-        if (data.toggle_favorite.success) {  // ← Changed to toggle_favorite
+        if (data.toggleFavorite.success) {
           setIsBookFavorite(!isBookFavorite);
           toast({
             title: isBookFavorite ? "Removed from favorites" : "Added to favorites",
-            description: `"${data.toggle_favorite.book.title}" has been ${isBookFavorite ? "removed from" : "added to"} your favorites.`,
+            description: `"${data.toggleFavorite.book.title}" has been ${isBookFavorite ? "removed from" : "added to"} your favorites.`,
           });
         }
       },
@@ -46,7 +45,6 @@ const BookDetail = () => {
     }
   );
 
-  // Update favorite status when data loads
   useEffect(() => {
     if (data?.book) {
       setIsBookFavorite(data.book.isFavorite || false);
@@ -59,13 +57,11 @@ const BookDetail = () => {
     try {
       await toggleFavorite({
         variables: { 
-          book_id: data.book.id,  // ← Correct (already snake_case)
+          bookId: data.book.id,   // ✅ camelCase matches GraphQL
           add: !isBookFavorite 
         },
       });
-    } catch (err) {
-      // Error handled by onError callback
-    }
+    } catch (err) {}
   };
 
   if (loading) return <div className="min-h-[50vh] flex items-center justify-center"><LoadingSpinner size="lg" /></div>;
@@ -89,8 +85,8 @@ const BookDetail = () => {
           <div className="grid md:grid-cols-3 gap-8 p-8">
             <div className="md:col-span-1">
               <div className="aspect-[3/4] relative overflow-hidden rounded-lg bg-gradient-subtle shadow-book">
-                {book.cover_image ? (  // ← Changed to cover_image
-                  <img src={book.cover_image} alt={book.title} className="w-full h-full object-cover" />
+                {book.coverImage ? (  // ✅ camelCase
+                  <img src={book.coverImage} alt={book.title} className="w-full h-full object-cover" />
                 ) : (
                   <div className="w-full h-full flex items-center justify-center bg-secondary"><BookOpen className="h-24 w-24 text-muted-foreground" /></div>
                 )}
