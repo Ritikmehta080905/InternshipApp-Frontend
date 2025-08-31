@@ -2,7 +2,7 @@ import { ApolloClient, InMemoryCache, createHttpLink } from "@apollo/client";
 
 // Use environment variable or fallback to production
 const GRAPHQL_ENDPOINT = import.meta.env.VITE_GRAPHQL_URL 
-  || https://internshipapp-backend.onrender.com/graphql/;
+  || "https://internshipapp-backend.onrender.com/graphql/";
 
 const httpLink = createHttpLink({
   uri: GRAPHQL_ENDPOINT,
