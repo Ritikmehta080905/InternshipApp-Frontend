@@ -17,7 +17,7 @@ const BookDetail = () => {
   const { data, loading, error, refetch } = useQuery<{ book: BookDetailType }>(
     GET_BOOK_BY_ID,
     {
-      variables: { id: id ? parseInt(id) : 0 },
+      variables: { id: id ? Number(id) : 0 }, // ✅ safer Int cast
       skip: !id,
     }
   );
@@ -47,7 +47,7 @@ const BookDetail = () => {
 
   useEffect(() => {
     if (data?.book) {
-      setIsBookFavorite(data.book.isFavorite || false);
+      setIsBookFavorite(data.book.isFavorite || false); // ✅ camelCase
     }
   }, [data]);
 
@@ -57,7 +57,7 @@ const BookDetail = () => {
     try {
       await toggleFavorite({
         variables: { 
-          bookId: data.book.id,   // ✅ camelCase matches GraphQL
+          bookId: Number(data.book.id), // ✅ ensure Int
           add: !isBookFavorite 
         },
       });
@@ -97,11 +97,16 @@ const BookDetail = () => {
               <div className="space-y-4">
                 <h1 className="text-4xl font-bold text-foreground leading-tight">{book.title}</h1>
                 <div className="flex items-center gap-2 text-lg text-muted-foreground"><User className="h-5 w-5"/><span>by {book.author}</span></div>
-                {book.publish_year && <div className="flex items-center gap-2 text-muted-foreground"><Calendar className="h-4 w-4"/><span>Published in {book.publish_year}</span></div>}
+                {book.publishYear && <div className="flex items-center gap-2 text-muted-foreground"><Calendar className="h-4 w-4"/><span>Published in {book.publishYear}</span></div>} {/* ✅ camelCase */}
               </div>
 
-              <Button onClick={handleToggleFavorite} variant={isBookFavorite ? "default" : "outline"} className={`flex items-center gap-2 ${isBookFavorite ? "bg-gradient-warm hover:opacity-90" : "hover:bg-secondary"}`}>
-                <Heart className={`h-4 w-4 ${isBookFavorite ? "fill-current" : ""}`}/> {isBookFavorite ? "Remove from Favorites" : "Add to Favorites"}
+              <Button 
+                onClick={handleToggleFavorite} 
+                variant={isBookFavorite ? "default" : "outline"} 
+                className={`flex items-center gap-2 ${isBookFavorite ? "bg-gradient-warm hover:opacity-90" : "hover:bg-secondary"}`}
+              >
+                <Heart className={`h-4 w-4 ${isBookFavorite ? "fill-current" : ""}`}/> 
+                {isBookFavorite ? "Remove from Favorites" : "Add to Favorites"}
               </Button>
 
               {book.description && <div className="space-y-3"><h2 className="text-xl font-semibold text-foreground">Description</h2><p className="text-muted-foreground leading-relaxed">{book.description}</p></div>}

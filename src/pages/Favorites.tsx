@@ -22,7 +22,7 @@ const Favorites = () => {
 
   useEffect(() => {
     if (data?.booksPaginated?.books) {
-      const favs = data.booksPaginated.books.filter((b: Book) => b.is_favorite);
+      const favs = data.booksPaginated.books.filter((b: Book) => b.isFavorite); // ✅ fixed to camelCase
       setFavorites(favs);
     }
   }, [data]);
@@ -30,7 +30,7 @@ const Favorites = () => {
   const handleRemoveFavorite = async (book: Book) => {
     try {
       await toggleFavorite({
-        variables: { bookId: book.id, add: false },
+        variables: { bookId: Number(book.id), add: false }, // ✅ ensure Int type
       });
       setFavorites(prev => prev.filter(fav => fav.id !== book.id));
       toast({

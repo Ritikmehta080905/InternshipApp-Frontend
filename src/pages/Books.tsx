@@ -12,13 +12,13 @@ const Books = () => {
   const [search, setSearch] = useState("");
   const pageSize = 8;
 
-  // ✅ CORRECT: Using snake_case variables to match GraphQL schema
+  // ✅ CORRECT: Using camelCase variables to match GraphQL schema
   const { data, loading, error, refetch } = useQuery<{ booksPaginated: BooksPaginatedResponse }>(
     GET_BOOKS_PAGINATED,
     {
       variables: { 
         page: currentPage, 
-  pageSize: pageSize,
+        pageSize: pageSize,
         search 
       },
       fetchPolicy: "network-only",
@@ -31,7 +31,7 @@ const Books = () => {
 
   // Refetch when dependencies change
   useEffect(() => {
-  refetch({ page: currentPage, pageSize, search });
+    refetch({ page: currentPage, pageSize, search });
   }, [currentPage, search, refetch, pageSize]);
 
   const handleSearch = (query: string) => {

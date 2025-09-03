@@ -5,7 +5,7 @@ export interface Book {
   title: string;
   author: string;
   coverImage?: string;
-  is_favorite?: boolean; // ✅ Added
+  isFavorite?: boolean; // ✅ Updated to camelCase
 }
 
 export interface BooksPaginatedResponse {
@@ -19,8 +19,8 @@ export interface BookDetail {
   author: string;
   coverImage?: string;
   description?: string;
-  publish_year?: number;
-  is_favorite?: boolean; // ✅ Added
+  publishYear?: number; // ✅ Updated to camelCase
+  isFavorite?: boolean; // ✅ Updated to camelCase
 }
 
 // Queries
@@ -32,7 +32,7 @@ export const GET_BOOKS_PAGINATED = gql`
         title
         author
         coverImage
-        is_favorite   # ✅ Added
+        isFavorite   # ✅ Updated to camelCase
       }
       totalCount
     }
@@ -47,8 +47,8 @@ export const GET_BOOK_BY_ID = gql`
       author
       coverImage
       description
-      publish_year
-      is_favorite   # ✅ Added
+      publishYear   # ✅ Updated to camelCase
+      isFavorite    # ✅ Updated to camelCase
     }
   }
 `;
@@ -62,7 +62,7 @@ export const TOGGLE_FAVORITE = gql`
         title
         author
         coverImage
-        is_favorite   # ✅ Added
+        isFavorite   # ✅ Updated to camelCase
       }
     }
   }

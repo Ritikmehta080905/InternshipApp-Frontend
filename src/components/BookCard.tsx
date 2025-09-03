@@ -61,7 +61,7 @@ const BookCard = ({ book }: BookCardProps) => {
     try {
       await toggleFavorite({
         variables: { 
-          bookId: parseInt(book.id), // 👈 ensure Int type
+          bookId: Number(book.id), // ✅ safer cast to Int
           add: !isFavorite 
         },
       });

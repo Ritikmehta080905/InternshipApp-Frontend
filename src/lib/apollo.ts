@@ -4,9 +4,13 @@ import { ApolloClient, InMemoryCache, createHttpLink } from "@apollo/client";
 const GRAPHQL_ENDPOINT = import.meta.env.VITE_GRAPHQL_URL 
   || "https://internshipapp-backend.onrender.com/graphql/";
 
+// ✅ Added headers to ensure JSON requests are valid
 const httpLink = createHttpLink({
   uri: GRAPHQL_ENDPOINT,
   credentials: "include",
+  headers: {
+    "Content-Type": "application/json",
+  },
 });
 
 const client = new ApolloClient({
